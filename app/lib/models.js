@@ -1,6 +1,34 @@
 const { model, Schema } = require('mongoose');
 const mongoose = require('mongoose');
 
+const userSchema = new mongoose.Schema(
+    {
+        id: {
+            type: String,
+            required: true,
+            unique: true,
+            index: true
+        },
+      username: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      password: {
+        type: String,
+        required: true,
+      },
+      img: {
+        type: String,
+      },
+      isAdmin: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    { timestamps: true }
+  );
+
 let memberSchema = new Schema({
     id: {
         type: String,
@@ -135,7 +163,7 @@ let cbstatSchema = new Schema({
     }]
 
 });
-
+export const User = mongoose.models.User || mongoose.model("User", userSchema);
 export const Member = mongoose.models.members || mongoose.model("members", memberSchema);
 export const Hitplan = mongoose.models.hitplans || mongoose.model("hitplans", hitplanSchema);
 export const CbStats = mongoose.models.cbstats || mongoose.model("cbstats", cbstatSchema);

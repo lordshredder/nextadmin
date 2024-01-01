@@ -13,9 +13,9 @@ import {
     MdLogout,
   } from "react-icons/md";
 
-  import { GiDeathZone, GiMeepleGroup, GiBookmarklet  } from "react-icons/gi";
+  import { GiDeathZone, GiMeepleGroup, GiBookmarklet, GiBookCover  } from "react-icons/gi";
 import MenuLink from "./menuLink/menuLink";
-  //import { auth, signOut } from "@/app/auth";
+import { auth, signOut } from "@/app/lib/auth";
   
   const menuItems = [
     {
@@ -46,6 +46,11 @@ import MenuLink from "./menuLink/menuLink";
           path: "/dashboard/timelines",
           icon: <GiBookmarklet />,
         },
+        {
+          title: "Guides & Links",
+          path: "/dashboard/guides",
+          icon: <GiBookCover />,
+        },
       ],
     },
     {
@@ -53,17 +58,17 @@ import MenuLink from "./menuLink/menuLink";
       list: [
         {
           title: "Units",
-          path: "/dashboard/units",
+          path: "/dashboard/admin/units",
           icon: <MdWork />,
         },
         {
           title: "Bosses",
-          path: "/dashboard/reports",
+          path: "/dashboard/admin/boss",
           icon: <MdAnalytics />,
         },
         {
           title: "Members",
-          path: "/dashboard/teams",
+          path: "/dashboard/admin/members",
           icon: <MdPeople />,
         },
       ],
@@ -88,14 +93,19 @@ import MenuLink from "./menuLink/menuLink";
 
 
 
-const Sidebar = () => {
+const Sidebar = async () => {
+  const session = await auth();
+  const { user } = await auth();
+  console.log(session);
+  console.log(user);
     return (
       <div className={styles.container}>
         <div className={styles.user}>
-            <Image className={styles.userImage} src="https://cdn.discordapp.com/avatars/197052858628177920/2d8371395b474741d27efd8660ce3283.webp" alt="" width="50" height="50"/>
+
+            <Image className={styles.userImage} src={user.img || "/noavatar.png"} alt="" width="50" height="50"/>
             <div className={styles.userDetail}>
-            <span className={styles.username}>Pai</span>
-            <span className={styles.userTitle}>Administrator</span>
+            <span className={styles.username}>{user.username}</span>
+            <span className={styles.userTitle}>{user.isAdmin ? "Admin" : "Member"}</span>
         </div>
         </div>
         <ul className={styles.list}>
@@ -108,10 +118,17 @@ const Sidebar = () => {
                 </li>
             ))}
         </ul>
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
             <button className={styles.logout}>
               <MdLogout />
               Logout
             </button>
+          </form>
         </div>
     )
   }

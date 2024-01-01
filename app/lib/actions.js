@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { Hitplan, Member, CbStats, Unit } from "./models";
+import { Hitplan, Member, CbStats, Unit, User } from "./models";
 import { connectToDB } from "./utils";
 import { redirect } from "next/navigation";
-import bcrypt from "bcrypt";
-import { signIn } from "../auth";
+import bcrypt from "bcryptjs";
+import { signIn } from "./auth";
 
 export const updateMemberRoster = async (formData) => {
     const { id, rosterstring } =
@@ -53,6 +53,40 @@ export const addMember = async (formData) => {
       sync,
       killer,
       status
+    });
+
+    await newMember.save();
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to create user!");
+  }
+
+  revalidatePath("/dashboard/members");
+  redirect("/dashboard/members");
+};
+
+
+export const addUser = async (formData) => {
+  const { id, username,  password, img, isAdmin }  =
+    Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+
+    const exists = await User.findOne({username});
+    if(exists){
+      return "Username is already taken.";
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newMember = new User({
+      id,
+      username,
+      password: hashedPassword,
+      img,
+      isAdmin
     });
 
     await newMember.save();
@@ -115,17 +149,30 @@ export const updateMember = async (formData) => {
 
 export const authenticate = async (prevState, formData) => {
   const { username, password } = Object.fromEntries(formData);
+
   try {
-    console.log(`test1:`);
     await signIn("credentials", { username, password });
-    console.log(`test2:`);
   } catch (err) {
-    console.log("ERROR STARTS HERE");
-    console.log(err);
-    console.log("ERROR ENDS HERE");
-    return "Worg Credentials!";
+    if (err.message.includes("CredentialsSignin")) {
+      return "Wrong Credentials";
+    }
+    throw err;
   }
 };
+
+// export const authenticate = async (prevState, formData) => {
+//   const { username, password } = Object.fromEntries(formData);
+//   try {
+//     console.log(`test1:`);
+//     await signIn("credentials", { username, password });
+//     console.log(`test2:`);
+//   } catch (err) {
+//     console.log("ERROR STARTS HERE");
+//     console.log(err);
+//     console.log("ERROR ENDS HERE");
+//     return "Worg Credentials!";
+//   }
+// };
 
 export const deleteMember = async (formData) => {
   const { id } = Object.fromEntries(formData);
