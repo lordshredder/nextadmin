@@ -1,0 +1,108 @@
+.dialog {
+  border: none;
+  background-color: transparent;
+  position: absolute;
+    left: 50%;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 33.33vw;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: var(--bgSoft);
+  color: var(--text);
+}
+
+.inputgroup {
+  display: flex;
+  gap: 20px;
+}
+
+.childrengroup {
+  display: flex;
+  flex:auto;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input, .form textarea, .form select{
+  padding: 20px;
+  border: 2px solid #2e374a;
+  border-radius: 5px;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 10px 0px;
+}
+
+.form label{
+  font-size: 12px;
+}
+
+.form button{
+  width: 100%;
+  padding: 20px;
+  background-color: teal;
+  color: var(--text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeButton{
+  padding: 12px;
+  background-color: red;
+  color: var(--text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  flex: 1 0 auto;
+}
+.button{
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+}
+
+.submit{
+  width: 100%;
+  padding: 10px;
+  background-color: teal;
+  color: var(--text);
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+}

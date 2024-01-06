@@ -7,12 +7,10 @@ import { authConfig } from "./auth.config";
 
 const login = async (credentials) => {
   try {
-    console.log("one");
-    console.log(credentials);
+
     connectToDB();
     const user = await User.findOne({ username: credentials.username }).lean();
-    console.log(user);
-    if (!user) throw new Error("Wrong credentials!");
+    if (!user) throw new Error("User does not exist!");
 
     const isPasswordCorrect = await bcrypt.compare(
       credentials.password,
@@ -24,7 +22,8 @@ const login = async (credentials) => {
     return user;
   } catch (err) {
     console.log(err);
-    throw new Error("Failed to login!");
+    return null;
+    //throw new Error("Failed to login!");
   }
 };
 
@@ -49,14 +48,13 @@ export const {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-        console.log(user, account);
       if (account.provider === "credentials") {
         connectToDB();
         try {
           const member = await Member.findOne({ id: account.providerAccountId });
-
           if (member) {
             const user = await User.findOne({
+
                 id: account.providerAccountId
             });
             if(user){

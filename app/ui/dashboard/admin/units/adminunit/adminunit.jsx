@@ -1,30 +1,37 @@
 "use client";
-import styles from "./rosterunit.module.css";
+import styles from "./adminunit.module.css";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const Rosterunit = ({ data, id, existingIds }) => {
+const AdminUnit = ({ data, id }) => {
 
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
   const selectedIds = new URLSearchParams(searchParams).get('selectedIds') ? new URLSearchParams(searchParams).get('selectedIds').split(',').map(id => parseInt(id)) : [];
   const params = new URLSearchParams(searchParams);
-  if(!params.get('id')){
-  params.set('id', id);
-  console.log("reloaded");
-  if(existingIds) params.set('selectedIds', existingIds.split(',').map(id => parseInt(id)));
-  replace(`${pathname}?${params}`, { scroll: false });}
+  // if(!params.get('id')){
+  // params.set('id', id);
+  // console.log("reloaded");
+  // if(existingIds) params.set('selectedIds', existingIds.split(',').map(id => parseInt(id)));
+  // replace(`${pathname}?${params}`, { scroll: false });}
 
   const handleClick = (item) => {
-    const itemid = parseInt(item.id);
+    
     const params = new URLSearchParams(searchParams);
     let newIds = [...selectedIds];
-    if (newIds.includes(itemid)) {
-      newIds = newIds.filter(selectedId => selectedId !== itemid);   
+    if (newIds.includes(id)) {
+      newIds = newIds.filter(selectedId => selectedId !== id);
+      
     } else {
-      newIds.push(itemid);
+      newIds.push(id);
     }
-    params.set('selectedIds', newIds.join(','));
+    params.set('slI', item.id);
+    params.set('slIM', item.imagelink);
+    params.set('slN', item.name);
+    params.set('slE', item.element);   
+    params.set('slP', item.range);
+    params.set('slS', item.stars);
+    params.set('showEditDialog', 'y');
 
 
     replace(`${pathname}?${params}`, { scroll: false });
@@ -41,7 +48,8 @@ const Rosterunit = ({ data, id, existingIds }) => {
               src={item.imagelink}
               alt={item.name}
               title={item.name}
-              className={selectedIds.includes(parseInt(item.id)) ? styles.selectedImg : styles.normalImg}
+
+              className={styles.normalImg}
               onClick={() => handleClick(item)}
             />
           </div>
@@ -51,4 +59,4 @@ const Rosterunit = ({ data, id, existingIds }) => {
   );
 };
 
-export default Rosterunit;
+export default AdminUnit;

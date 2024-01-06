@@ -7,14 +7,11 @@ const Card = ({ item }) => {
     <div className={styles.container}>
       <MdSupervisedUserCircle size={24} />
       <div className={styles.texts}>
-        <span className={styles.title}>MVP</span>
-        <Image className={styles.userImage} src="/noavatar.png" alt="" width="50" height="50"/>
-        <span className={styles.number}>8976</span>
+        <span className={styles.title}>{item.title}</span>
+        <Image className={styles.userImage} src={item.memberobj.avatar} alt="" width="50" height="50"/>
+        <span className={styles.number}>{item.score}</span>
         <span className={styles.detail}>
-          <span className={9 > 0 ? styles.positive : styles.negative}>
-            12%
-          </span>{" "}
-          {9 > 0 ? "more" : "less"} than previous week
+          {item.description}
         </span>
       </div>
     </div>

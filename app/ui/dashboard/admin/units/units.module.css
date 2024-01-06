@@ -1,15 +1,23 @@
 .container {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
+    position: relative;
   }
+  
 
   .top{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 60px;
   }
   
+  .addButton{
+    padding: 10px;
+    background-color: #5d57c9;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
   .rosterItem {
     position: relative;
   }
@@ -70,4 +78,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .dialog {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
   }

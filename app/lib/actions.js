@@ -12,6 +12,7 @@ export const updateMemberRoster = async (formData) => {
       Object.fromEntries(formData);
   
     try {
+      if(!id || id === "") return;
       connectToDB();
         console.log(formData);
       const updateFields = {
@@ -24,7 +25,7 @@ export const updateMemberRoster = async (formData) => {
           (updateFields[key] === "" || undefined) && delete updateFields[key]
       );
   
-      //await Member.findByIdAndUpdate(id, updateFields);
+      await Member.findOneAndUpdate({id: id}, updateFields);
   
     } catch (err) {
       console.log(err);
@@ -32,11 +33,82 @@ export const updateMemberRoster = async (formData) => {
     }
   
     revalidatePath("/dashboard/roster");
-    //redirect("/dashboard/roster");
+  };
+
+
+  export const addUnit = async (formData) => {
+    const { id, name,  imagelink, element, range }  =
+      Object.fromEntries(formData);
+
+      const actualid = imagelink.split('/').pop().replace('.webp', '');
+    console.log("inside ADDUNIT" + actualid + element + name + id, range);
+    try {
+      connectToDB();
+      const idExists = await Unit.findOne({id: actualid});
+      if(idExists){
+        return "Id exists.";
+      }
+  
+      const exists = await Unit.findOne({name: name});
+      if(exists){
+        return "Name exists.";
+      }
+  
+      const newUnit = new Unit({
+        id: actualid,
+        name,
+        imagelink,
+        element,
+        range
+      });
+  
+      await newUnit.save();
+    } catch (err) {
+      console.log(err);
+      throw new Error("Failed to create unit!");
+    }
+  
+    revalidatePath("/dashboard/admin/units");
+  };
+
+  export const editUnit = async (formData) => {
+    const { name,  imagelink, element, range }  =
+      Object.fromEntries(formData);
+
+    const actualid = imagelink.split('/').pop().replace('.webp', '');
+    console.log("inside editUNIT" + actualid + element + name + range);
+    try {
+      connectToDB();
+      const idExists = await Unit.findOne({id: actualid});
+      if(!idExists){
+        return "Unit doesn't exist.";
+      }
+
+      updateUnitFields = {
+        id: actualid,
+        imagelink: imagelink,
+        element: element,
+        name: name,
+        range: range,
+      };
+      
+      Object.keys(updateUnitFields).forEach(
+        (key) =>
+          (updateUnitFields[key] === "" || undefined) && delete updateUnitFields[key]
+      );
+
+      await Unit.findOneAndUpdate({id: actualid}, updateUnitFields, {upsert: true});
+
+    } catch (err) {
+      console.log(err);
+      throw new Error("Failed to update unit!");
+    }
+  
+    revalidatePath("/dashboard/admin/units");
   };
 
 export const addMember = async (formData) => {
-  const { id, member,  password, urlroster, sync, killer, status }  =
+  const { id, member,  password, status }  =
     Object.fromEntries(formData);
 
   try {
@@ -72,6 +144,10 @@ export const addUser = async (formData) => {
 
   try {
     connectToDB();
+    const idExists = await User.findOne({id});
+    if(idExists){
+      return "Id exists.";
+    }
 
     const exists = await User.findOne({username});
     if(exists){
@@ -81,7 +157,7 @@ export const addUser = async (formData) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newMember = new User({
+    const newUser = new User({
       id,
       username,
       password: hashedPassword,
@@ -89,62 +165,83 @@ export const addUser = async (formData) => {
       isAdmin
     });
 
-    await newMember.save();
+    await newUser.save();
+
+    const memberExists = await Member.findOne({id});
+    if(!memberExists){
+      console.log("Member doesn't exist. Creating new Member");
+      const newMember = new Member({
+        id: id,
+        member: username,
+        avatar: img,
+        level: 292
+      });
+      await newMember.save();
+    }
   } catch (err) {
     console.log(err);
     throw new Error("Failed to create user!");
   }
 
-  revalidatePath("/dashboard/members");
-  redirect("/dashboard/members");
+  revalidatePath("/dashboard/admin/members");
+  redirect("/dashboard/admin/members");
 };
 
 export const updateMember = async (formData) => {
-  const { id, member,  password, urlroster, sync, killer, status } =
+  let { id, member, clan, level, username,  password, notes, status, isAdmin } =
     Object.fromEntries(formData);
 
   try {
+    if(status === 'inactive') clan = "---";
     connectToDB();
-
-    let updateFields = {};
-
+    let updateUserFields = {};
+    let updateMemberFields = {};
     if(password !== "" || undefined){
 
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      updateFields = {
-        member,
+      updateUserFields = {
+        id,
+        username,
         password: hashedPassword,
-        urlroster,
-        sync,
-        killer,
-        status
+        isAdmin,
       };
     } else {
-      updateFields = {
-        member,
-        urlroster,
-        sync,
-        killer,
-        status
+      updateUserFields = {
+        id,
+        username,
+        isAdmin,
       };
     }
-    //Member.schema.add({password: 'String'});
-    console.log(updateFields);
 
-    Object.keys(updateFields).forEach(
+    updateMemberFields = {
+      member,
+      clan,
+      level,
+      notes,
+      status,
+      lastupdate: new Date()
+    };
+    
+
+    Object.keys(updateMemberFields).forEach(
       (key) =>
-        (updateFields[key] === "" || undefined) && delete updateFields[key]
+        (updateMemberFields[key] === "" || undefined) && delete updateMemberFields[key]
     );
 
-    await Member.findOneAndUpdate({id: id}, updateFields);
+    Object.keys(updateUserFields).forEach(
+      (key) =>
+        (updateUserFields[key] === "" || undefined) && delete updateUserFields[key]
+    );
+    await Member.findOneAndUpdate({id: id}, updateMemberFields, {upsert: true});
+    await User.findOneAndUpdate({id: id}, updateUserFields, {upsert: true});
   } catch (err) {
     console.log(err);
     throw new Error("Failed to update member!");
   }
 
-  revalidatePath("/dashboard/members");
-  redirect("/dashboard/members");
+  revalidatePath("/dashboard/admin/members");
+  redirect("/dashboard/admin/members");
 };
 
 export const authenticate = async (prevState, formData) => {
@@ -179,12 +276,21 @@ export const deleteMember = async (formData) => {
 
   try {
     connectToDB();
-    await Member.findByIdAndDelete(id);
+    await User.findOneAndDelete({id: id});
+    await Member.findOneAndDelete({id: id});
   } catch (err) {
     console.log(err);
     throw new Error("Failed to delete user!");
   }
 
-  revalidatePath("/dashboard/members");
+  revalidatePath("/dashboard/admin/members");
 };
+
+
+export const closeDialog = async () => {
+  console.log("modal closed");
+}
+export const confirmDialog = async () => {
+  console.log("Okay");
+}
 

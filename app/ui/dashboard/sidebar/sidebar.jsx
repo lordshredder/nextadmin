@@ -13,7 +13,7 @@ import {
     MdLogout,
   } from "react-icons/md";
 
-  import { GiDeathZone, GiMeepleGroup, GiBookmarklet, GiBookCover  } from "react-icons/gi";
+  import { GiDeathZone, GiMeepleGroup, GiBookmarklet, GiBookCover, GiSwordsEmblem  } from "react-icons/gi";
 import MenuLink from "./menuLink/menuLink";
 import { auth, signOut } from "@/app/lib/auth";
   
@@ -27,8 +27,8 @@ import { auth, signOut } from "@/app/lib/auth";
           icon: <MdDashboard />,
         },
         {
-          title: "Members",
-          path: "/dashboard/members",
+          title: "Hitplan",
+          path: "/dashboard/hitplan",
           icon: <MdSupervisedUserCircle />,
         },
         {
@@ -44,7 +44,7 @@ import { auth, signOut } from "@/app/lib/auth";
         {
           title: "CB Timelines",
           path: "/dashboard/timelines",
-          icon: <GiBookmarklet />,
+          icon: <GiSwordsEmblem />,
         },
         {
           title: "Guides & Links",
@@ -81,11 +81,6 @@ import { auth, signOut } from "@/app/lib/auth";
           path: "/dashboard/settings",
           icon: <MdOutlineSettings />,
         },
-        {
-          title: "Help",
-          path: "/dashboard/help",
-          icon: <MdHelpCenter />,
-        },
       ],
     },
   ];
@@ -96,8 +91,7 @@ import { auth, signOut } from "@/app/lib/auth";
 const Sidebar = async () => {
   const session = await auth();
   const { user } = await auth();
-  console.log(session);
-  console.log(user);
+
     return (
       <div className={styles.container}>
         <div className={styles.user}>
@@ -110,12 +104,20 @@ const Sidebar = async () => {
         </div>
         <ul className={styles.list}>
             {menuItems.map(cat=>(
+              session?.user?.isAdmin && cat.title === "Admin" ? (
                 <li key={cat.title}>
                     <span className={styles.cat}>{cat.title}</span>
                     {cat.list.map(item=>(
                         <MenuLink item={item} key={item.title}/>
                     ))}                   
                 </li>
+            ): cat.title !== "Admin" ?
+            <li key={cat.title}>
+            <span className={styles.cat}>{cat.title}</span>
+            {cat.list.map(item=>(
+                <MenuLink item={item} key={item.title}/>
+            ))}                   
+        </li> : null
             ))}
         </ul>
           <form
