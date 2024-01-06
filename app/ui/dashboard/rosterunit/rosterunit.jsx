@@ -12,7 +12,6 @@ const Rosterunit = ({ data, id, existingIds }) => {
   const params = new URLSearchParams(searchParams);
   if(!params.get('id')){
   params.set('id', id);
-  console.log("reloaded");
   if(existingIds) params.set('selectedIds', existingIds.split(',').map(id => parseInt(id)));
   replace(`${pathname}?${params}`, { scroll: false });}
 
@@ -38,7 +37,7 @@ const Rosterunit = ({ data, id, existingIds }) => {
       <div className={styles.container}>
         {data.map((item) => (
           <div key={item.id} className={styles.rosterItem}>
-            <Image
+            <Image width={128} height={128}
               src={item.imagelink}
               alt={item.name}
               title={item.name}

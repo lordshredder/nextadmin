@@ -119,7 +119,6 @@ export const syncDiscordUnit = async () => {
 
 
 export const fetchMember = async (id) => {
-    console.log(id);
     try {
       connectToDB();
       const member = await Member.findOne({id:id});
@@ -131,7 +130,6 @@ export const fetchMember = async (id) => {
   };
 
   export const fetchUser = async (id) => {
-    console.log(id);
     try {
       connectToDB();
       const user = await User.findOne({id:id});

@@ -6,6 +6,7 @@ import {useRef, useEffect} from 'react';
 import { editUnit } from "@/app/lib/actions";
 
 
+
 const EditUnitDialog = ({ title, onClose, onOk}) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -24,14 +25,21 @@ const EditUnitDialog = ({ title, onClose, onOk}) => {
   useEffect(()=>{
     if(showDialog==="y"){
       dialogRef.current?.showModal();
-
     } else{
       dialogRef.current?.close();
     }
   }, [showDialog])
 
   const closeDialog = () => {
-    params.set('showEditDialog', 'n');
+    //params.set('showEditDialog', 'n');
+    params.delete('showEditDialog');
+    params.delete('slI');
+    params.delete('slE');
+    params.delete('slS');
+    params.delete('slP');
+    params.delete('slN');
+    params.delete('slIM');
+    unitdata = {};
     replace(`${pathname}?${params}`, { scroll: false });
     onClose();
   }
@@ -41,6 +49,14 @@ const EditUnitDialog = ({ title, onClose, onOk}) => {
     closeDialog();
   }
 
+  // <label>Element</label>
+  // <select name="element" id="element" value={unitdata.stars} required>
+  // <option value="Fire">Fire</option>
+  // <option value="Water">Water</option>
+  // <option value="Wind">Wind</option>
+  // <option value="Light">Light</option>
+  // <option value="Dark">Dark</option>
+  // </select>
 
   const dialog = (
   <dialog className={styles.dialog} ref={dialogRef}>
@@ -70,19 +86,13 @@ const EditUnitDialog = ({ title, onClose, onOk}) => {
             </div>
             <div className={styles.childrengroup}>
             <label>Element</label>
-            <select name="element" id="element" defaultValue={unitdata.element} value={unitdata.element}  required>
-            <option value="Fire">Fire</option>
-            <option value="Water">Water</option>
-            <option value="Wind">Wind</option>
-            <option value="Light">Light</option>
-            <option value="Dark">Dark</option>
-            </select>
+              <input type="text" name="element" placeholder="Select an Element" defaultValue={unitdata.element} />
             </div>
           </div>
           <div className={styles.inputgroup}>
             <div className={styles.childrengroup}>
             <label>Stars</label>
-            <input type="number" name="stars" placeholder="5" value={unitdata.stars}/>
+            <input type="number" name="stars" placeholder="5" defaultValue={unitdata.stars}/>
             </div>
           </div>
           <button onClick={clickOk}>Update</button>

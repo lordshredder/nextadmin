@@ -41,7 +41,7 @@ const SingleMemberPage = async ({ params }) => {
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
           <option value="vacation">Vacation</option>
-        </select>
+          </select>
           <button>Update</button>
         </form>
       </div>

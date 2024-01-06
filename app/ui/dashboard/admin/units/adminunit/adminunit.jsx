@@ -4,7 +4,6 @@ import styles from "./adminunit.module.css";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const AdminUnit = ({ data, id }) => {
-
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -45,7 +44,7 @@ const AdminUnit = ({ data, id }) => {
       <div className={styles.container}>
         {data.map((item) => (
           <div key={item.id} className={styles.rosterItem}>
-            <Image
+            <Image width={128} height={128}
               src={item.imagelink}
               alt={item.name}
               title={item.name}

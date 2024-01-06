@@ -11,8 +11,6 @@ const Roster = async ({searchParams}) => {
   const { user } = await auth();
   const q = searchParams?.q || "";
   const data = await fetchUnits(q);
-  console.log(session);
-  console.log(user);
   const member = await fetchMember(user.id);
 
 

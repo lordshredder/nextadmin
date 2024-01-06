@@ -71,6 +71,12 @@ const AddUnitDialog = ({ title, onClose, onOk}) => {
             </select>
             </div>
           </div>
+          <div className={styles.inputgroup}>
+            <div className={styles.childrengroup}>
+            <label>Stars</label>
+            <input type="number" name="stars" placeholder="5" defaultValue="5"/>
+            </div>
+          </div>
           <button onClick={clickOk}>Update</button>
         </form>
       </div>

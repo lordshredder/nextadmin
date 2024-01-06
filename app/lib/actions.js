@@ -25,8 +25,8 @@ export const updateMemberRoster = async (formData) => {
           (updateFields[key] === "" || undefined) && delete updateFields[key]
       );
   
-      await Member.findOneAndUpdate({id: id}, updateFields);
-  
+      const result = await Member.findOneAndUpdate({id: id}, updateFields);
+        result.save();
     } catch (err) {
       console.log(err);
       throw new Error("Failed to create user!");
@@ -37,11 +37,11 @@ export const updateMemberRoster = async (formData) => {
 
 
   export const addUnit = async (formData) => {
-    const { id, name,  imagelink, element, range }  =
+    const { id, name,  imagelink, element, range, stars }  =
       Object.fromEntries(formData);
 
       const actualid = imagelink.split('/').pop().replace('.webp', '');
-    console.log("inside ADDUNIT" + actualid + element + name + id, range);
+    console.log("inside ADDUNIT" + actualid + element + name + id, range, stars);
     try {
       connectToDB();
       const idExists = await Unit.findOne({id: actualid});
@@ -59,7 +59,8 @@ export const updateMemberRoster = async (formData) => {
         name,
         imagelink,
         element,
-        range
+        range,
+        stars
       });
   
       await newUnit.save();
@@ -72,11 +73,11 @@ export const updateMemberRoster = async (formData) => {
   };
 
   export const editUnit = async (formData) => {
-    const { name,  imagelink, element, range }  =
+    const { name,  imagelink, element, range, stars }  =
       Object.fromEntries(formData);
 
     const actualid = imagelink.split('/').pop().replace('.webp', '');
-    console.log("inside editUNIT" + actualid + element + name + range);
+    console.log("inside editUNIT" + actualid + element + name + range + stars);
     try {
       connectToDB();
       let updateUnitFields = {};
@@ -91,6 +92,7 @@ export const updateMemberRoster = async (formData) => {
         element: element,
         name: name,
         range: range,
+        stars: stars
       };
       
       Object.keys(updateUnitFields).forEach(
@@ -98,14 +100,16 @@ export const updateMemberRoster = async (formData) => {
           (updateUnitFields[key] === "" || undefined) && delete updateUnitFields[key]
       );
 
-      await Unit.findOneAndUpdate({id: actualid}, updateUnitFields, {upsert: true});
-
+      const result = await Unit.findOneAndUpdate({id: actualid}, updateUnitFields, {upsert: true});
+      result.save();
     } catch (err) {
       console.log(err);
       throw new Error("Failed to update unit!");
     }
   
+    //revalidatePath("/dashboard/admin/units");
     revalidatePath("/dashboard/admin/units");
+    redirect("/dashboard/");
   };
 
 export const addMember = async (formData) => {
