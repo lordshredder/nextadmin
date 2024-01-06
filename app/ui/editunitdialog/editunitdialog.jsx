@@ -3,7 +3,7 @@
 import styles from "./editunitdialog.module.css";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {useRef, useEffect} from 'react';
-import { addUnit, editUnit } from "@/app/lib/actions";
+import { editUnit } from "@/app/lib/actions";
 
 
 const EditUnitDialog = ({ title, onClose, onOk}) => {

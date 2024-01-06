@@ -3,17 +3,14 @@ import styles from "./sidebar.module.css"
 import {
     MdDashboard,
     MdSupervisedUserCircle,
-    MdShoppingBag,
-    MdAttachMoney,
     MdWork,
     MdAnalytics,
     MdPeople,
     MdOutlineSettings,
-    MdHelpCenter,
     MdLogout,
   } from "react-icons/md";
 
-  import { GiDeathZone, GiMeepleGroup, GiBookmarklet, GiBookCover, GiSwordsEmblem  } from "react-icons/gi";
+  import { GiDeathZone, GiMeepleGroup, GiBookCover, GiSwordsEmblem  } from "react-icons/gi";
 import MenuLink from "./menuLink/menuLink";
 import { auth, signOut } from "@/app/lib/auth";
   

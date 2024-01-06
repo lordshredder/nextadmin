@@ -1,9 +1,6 @@
 import Card from "../ui/dashboard/card/card"
-import Chart from "../ui/dashboard/chart/chart"
 import styles from "../ui/dashboard/dashboard.module.css"
-import { fetchUnits, fetchRankingStats } from "@/app/lib/data";
-import Link from "next/link";
-import { auth } from "@/app/lib/auth";
+import { fetchRankingStats } from "@/app/lib/data";
 
 
 

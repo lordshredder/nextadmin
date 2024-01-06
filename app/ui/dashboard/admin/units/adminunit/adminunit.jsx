@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import styles from "./adminunit.module.css";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -8,7 +9,7 @@ const AdminUnit = ({ data, id }) => {
   const { replace } = useRouter();
   const pathname = usePathname();
   const selectedIds = new URLSearchParams(searchParams).get('selectedIds') ? new URLSearchParams(searchParams).get('selectedIds').split(',').map(id => parseInt(id)) : [];
-  const params = new URLSearchParams(searchParams);
+  //const params = new URLSearchParams(searchParams);
   // if(!params.get('id')){
   // params.set('id', id);
   // console.log("reloaded");
@@ -44,7 +45,7 @@ const AdminUnit = ({ data, id }) => {
       <div className={styles.container}>
         {data.map((item) => (
           <div key={item.id} className={styles.rosterItem}>
-            <img
+            <Image
               src={item.imagelink}
               alt={item.name}
               title={item.name}

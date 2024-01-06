@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import styles from "./rosterunit.module.css";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -37,7 +38,7 @@ const Rosterunit = ({ data, id, existingIds }) => {
       <div className={styles.container}>
         {data.map((item) => (
           <div key={item.id} className={styles.rosterItem}>
-            <img
+            <Image
               src={item.imagelink}
               alt={item.name}
               title={item.name}

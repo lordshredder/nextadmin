@@ -6,7 +6,7 @@ import {useRef, useEffect} from 'react';
 import { addUnit } from "@/app/lib/actions";
 
 
-const AddUnitDialog = ({ title, onClose, onOk, children}) => {
+const AddUnitDialog = ({ title, onClose, onOk}) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();

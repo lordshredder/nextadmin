@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { Hitplan, Member, CbStats, Unit, User } from "./models";
+import { Member, Unit, User } from "./models";
 import { connectToDB } from "./utils";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
@@ -79,6 +79,7 @@ export const updateMemberRoster = async (formData) => {
     console.log("inside editUNIT" + actualid + element + name + range);
     try {
       connectToDB();
+      let updateUnitFields = {};
       const idExists = await Unit.findOne({id: actualid});
       if(!idExists){
         return "Unit doesn't exist.";
@@ -121,9 +122,6 @@ export const addMember = async (formData) => {
       id,
       member,
       password: hashedPassword,
-      urlroster,
-      sync,
-      killer,
       status
     });
 
@@ -250,10 +248,7 @@ export const authenticate = async (prevState, formData) => {
   try {
     await signIn("credentials", { username, password });
   } catch (err) {
-    if (err.message.includes("CredentialsSignin")) {
-      return "Wrong Credentials";
-    }
-    throw err;
+    return "Wrong Credentials";
   }
 };
 
