@@ -1,6 +1,7 @@
-import Card from "../ui/dashboard/card/card"
-import styles from "../ui/dashboard/dashboard.module.css"
-import { fetchRankingStats } from "@/app/lib/data";
+import Card from "@/components/ui/dashboard/card/card"
+import Rankings from "@/components/ui/dashboard/rankings/rankings"
+import styles from "@/components/ui/dashboard/dashboard.module.css"
+import { fetchRankingStats } from "@/lib/data";
 
 
 
@@ -32,6 +33,8 @@ const Dashboard = async () => {
   // <Card item={tmpTotal}/>
   // </div>
 
+  //       <Rankings />
+
   return (
     <div className={styles.wrapper}>
     <div className={styles.main}>
@@ -41,6 +44,7 @@ const Dashboard = async () => {
       <Card item={tmpKills}/>
       <Card item={tmpSyncs}/>
       </div>
+
 
       
     </div>

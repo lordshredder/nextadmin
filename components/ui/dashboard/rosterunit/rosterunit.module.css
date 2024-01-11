@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .form {
+    width: 200px;
+  }
+  
+
+  .top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .rosterItem {
+    position: relative;
+  }
+  
+  .normalImg {
+    width: 128px;
+    height: 128px;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+  
+  .selectedImg {
+    width: 128px;
+    height: 128px;
+    cursor: pointer;
+    opacity: 1; /* adjust the opacity as needed */
+  }
+
+  .buttons{
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: var(--text);
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submit{
+    width: 100%;
+    padding: 10px;
+    background-color: teal;
+    color: var(--text);
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+  }
+  

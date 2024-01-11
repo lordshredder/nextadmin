@@ -1,8 +1,8 @@
-import { deleteMember } from "@/app/lib/actions";
-import { fetchMembers, fetchMembersWithStats } from "@/app/lib/data";
-import styles from "@/app/ui/dashboard/members/members.module.css";
-import Pagination from "@/app/ui/dashboard/pagination/pagination";
-import Search from "@/app/ui/dashboard/search/search";
+import { deleteMember } from "@/lib/actions";
+import { fetchMembers, fetchMembersWithStats } from "@/lib/data";
+import styles from "@/components/ui/dashboard/admin/members/members.module.css";
+import Pagination from "@/components/ui/dashboard/pagination/pagination";
+import Search from "@/components/ui/dashboard/search/search";
 import Image from "next/image";
 import Link from "next/link";
 

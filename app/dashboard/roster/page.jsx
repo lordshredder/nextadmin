@@ -1,9 +1,9 @@
-import styles from "@/app/ui/dashboard/roster/roster.module.css";
-import Rosterunit from "@/app/ui/dashboard/rosterunit/rosterunit";
-import { fetchUnits, fetchMember } from "@/app/lib/data";
-import { updateMemberRoster } from "@/app/lib/actions";
-import { auth } from "@/app/lib/auth";
-import Search from "@/app/ui/dashboard/search/search";
+import styles from "@/components/ui/dashboard/roster/roster.module.css";
+import Rosterunit from "@/components/ui/dashboard/rosterunit/rosterunit";
+import { fetchUnits, fetchMember } from "@/lib/data";
+
+import { auth } from "@/lib/auth";
+
 
 const Roster = async ({searchParams}) => {
 
@@ -21,17 +21,6 @@ const Roster = async ({searchParams}) => {
   }
   return (
     <div>
-        <div className={styles.top}>
-          <Search placeholder="Search a unit..."/>
-          <form action={updateMemberRoster} className={styles.form}>
-          <input type="hidden" name="id" value={id} />
-          <input type="hidden" name="rosterstring" value={selectedIds} />
-          <button className={`${styles.button} ${styles.submit}`}>
-            Submit
-          </button>
-        </form>
-        </div>
-
       <Rosterunit data={data} id={id} existingIds={selectedIds}/>
     </div>
   );

@@ -1,14 +1,14 @@
-import styles from "@/app/ui/dashboard/admin/units/units.module.css";
-import AdminUnit from "@/app/ui/dashboard/admin/units/adminunit/adminunit";
-import AddUnit from "@/app/ui/dashboard/admin/units/addunit/addunit";
-import { fetchUnits } from "@/app/lib/data";
-import { updateMemberRoster } from "@/app/lib/actions";
+import styles from "@/components/ui/dashboard/admin/units/units.module.css";
+import AdminUnit from "@/components/ui/dashboard/admin/units/adminunit/adminunit";
+import AddUnit from "@/components/ui/dashboard/admin/units/addunit/addunit";
+import { fetchUnits } from "@/lib/data";
+import { updateMemberRoster } from "@/lib/actions";
 import Link from "next/link";
-import AddUnitDialog from "@/app/ui/addunitdialog/addunitdialog";
-import EditUnitDialog from "@/app/ui/editunitdialog/editunitdialog";
-import { confirmDialog , closeDialog} from "@/app/lib/actions";
-import { auth } from "@/app/lib/auth";
-import Search from "@/app/ui/dashboard/search/search";
+import AddUnitDialog from "@/components/ui/dashboard/admin/units/addunitdialog/addunitdialog";
+import EditUnitDialog from "@/components/ui/dashboard/admin/units/editunitdialog/editunitdialog";
+import { confirmDialog , closeDialog} from "@/lib/actions";
+import { auth } from "@/lib/auth";
+import Search from "@/components/ui/dashboard/search/search";
 
 const Units = async ({searchParams}) => {
   const session = await auth();
