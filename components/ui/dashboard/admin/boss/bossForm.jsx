@@ -6,6 +6,8 @@ import { useFormState } from "react-dom";
 import { toast } from 'sonner';
 import { useEffect } from "react";
 
+
+
 const BossForm = () => {
     const rnd = Math.floor(Math.random() * 45)+1;
     const boss = {

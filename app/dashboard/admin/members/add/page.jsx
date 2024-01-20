@@ -17,8 +17,8 @@ const AdminAddMemberPage = () => {
           <option value={false}>
             Is Admin?
           </option>
-          <option value={true}>Yes</option>
           <option value={false}>No</option>
+          <option value={true}>Yes</option>
         </select>
         <button type="submit">Submit</button>
       </form>

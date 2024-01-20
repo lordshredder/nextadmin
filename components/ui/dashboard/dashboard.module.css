@@ -36,3 +36,13 @@
   .side {
     flex: 1;
   }
+
+  /* @media (max-width: 768px){
+    .menu{
+        display: none;
+    }
+    .content {
+      padding: 10px;
+    }
+
+  } */

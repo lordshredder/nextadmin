@@ -3,6 +3,8 @@ import Rosterunit from "@/components/ui/dashboard/rosterunit/rosterunit";
 import { fetchUnits, fetchMember } from "@/lib/data";
 
 import { auth } from "@/lib/auth";
+import { Suspense } from "react";
+import RosterunitSkeleton from "@/components/ui/dashboard/rosterunit/rosterunitskeleton";
 
 
 const Roster = async ({searchParams}) => {
@@ -21,7 +23,9 @@ const Roster = async ({searchParams}) => {
   }
   return (
     <div>
-      <Rosterunit data={data} id={id} existingIds={selectedIds}/>
+      <Suspense fallback={<RosterunitSkeleton/>}>
+        <Rosterunit data={data} id={id} existingIds={selectedIds}/>
+      </Suspense>
     </div>
   );
 }

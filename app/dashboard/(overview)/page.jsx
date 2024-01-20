@@ -3,11 +3,24 @@ import Rankings from "@/components/ui/dashboard/rankings/rankings"
 import styles from "@/components/ui/dashboard/dashboard.module.css"
 import { fetchRankingStats } from "@/lib/data";
 
+export const revalidate = 600;
+//export const dynamic = 'force-static';
 
+async function fetchStats() {
+  const { tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal} = await fetchRankingStats();
+  return { tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal};
+  // return {
+  //   props: {
+  //     tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal
+  //   },
+  //   revalidate: 3600, // In seconds
+  // }
+}
 
 const Dashboard = async () => {
-
-  const { tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal} = await fetchRankingStats();
+  //const { tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal} = 0;
+  const { tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal} = await fetchStats();
+  //const { tmpDPS, tmpKills, tmpSyncs, tmpTLs, tmpTotal} = await fetchRankingStats();
   tmpDPS.title = tmpDPS.memberobj.member;
   tmpDPS.score = tmpDPS.stats.damage;
   tmpDPS.description = "Most Damage";

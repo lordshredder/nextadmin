@@ -12,8 +12,7 @@ import {
 
   import { GiDeathZone, GiMeepleGroup, GiBookCover, GiSwordsEmblem  } from "react-icons/gi";
 import MenuLink from "./menuLink/menuLink";
-import { auth } from "@/lib/auth";
-import ClientSidebar from "./clientsidebar/clientsidebar";
+import { auth, signOut } from "@/lib/auth";
   
   const menuItems = [
     {
@@ -89,11 +88,52 @@ import ClientSidebar from "./clientsidebar/clientsidebar";
 const Sidebar = async () => {
   const session = await auth();
   const { user } = await auth();
-//
+
     return (
-      <>
-      <ClientSidebar session={session} user={user} />
-      </>
+      <div className={styles.container}>
+        <div className={styles.user}>
+            <Image className={styles.userImage} src={user.img || "/noavatar.png"} alt="" width="50" height="50"/>
+            <div className={styles.userDetail}>
+            <span className={styles.username}>{user.username}</span>
+            <span className={styles.userTitle}>{user.isAdmin ? "Admin" : "Member"}</span>
+        </div>
+        </div>
+        <ul className={styles.list}>
+            {menuItems.map(cat=>(
+              session?.user?.isAdmin && cat.title === "Admin" ? (
+                <li key={cat.title}>
+                    <span className={styles.cat}>{cat.title}</span>
+                    {cat.list.map(item=>(
+                        <MenuLink item={item} path={item.path} key={item.title}/>
+                    ))}                   
+                </li>
+            ): cat.title !== "Admin" && cat.title === "User" ?
+            <li key={cat.title}>
+            <span className={styles.cat}>{cat.title}</span>
+            {cat.list.map(item=>(
+                
+                <MenuLink item={item} path={`${item.path}/${user.id}`} key={item.title}/>
+            ))}                   
+        </li> : <li key={cat.title}>
+            <span className={styles.cat}>{cat.title}</span>
+            {cat.list.map(item=>(
+                <MenuLink item={item} path={item.path} key={item.title}/>
+            ))}                   
+        </li>
+            ))}
+        </ul>
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <button className={styles.logout}>
+              <MdLogout />
+              Logout
+            </button>
+          </form>
+        </div>
     )
   }
   
