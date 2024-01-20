@@ -13,7 +13,6 @@ import {
 
 import { GiDeathZone, GiMeepleGroup, GiBookCover, GiSwordsEmblem  } from "react-icons/gi";
 import MenuLink from "../menuLink/menuLink";
-//import { signOut } from "@/lib/auth";
 import { useState } from "react";
 import {logout} from "@/lib/actions";
   
@@ -115,7 +114,7 @@ const ClientSidebar = ({session, user}) => {
                 
                 <MenuLink item={item} path={`${item.path}/${user.id}`} key={item.title}/>
             ))}                   
-        </li> : <li key={cat.title}>
+        </li> :  cat.title !== "Admin" && <li key={cat.title}>
             <span className={styles.cat}>{cat.title}</span>
             {cat.list.map(item=>(
                 <MenuLink item={item} path={item.path} key={item.title}/>
@@ -149,7 +148,7 @@ const ClientSidebar = ({session, user}) => {
                 
                 <MenuLink item={item} path={`${item.path}/${user.id}`} key={item.title}/>
             ))}                   
-        </li> : <li key={cat.title}>
+        </li> :  cat.title !== "Admin" && <li key={cat.title}>
             <span className={styles.cat}>{cat.title}</span>
             {cat.list.map(item=>(
                 <MenuLink item={item} path={item.path} key={item.title}/>
